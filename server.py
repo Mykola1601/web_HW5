@@ -23,6 +23,13 @@ async def file_log(data):
                 await file.write(str(datetime.now()) + " : " +data + "\n")
                 logging.info(f'login to file')
 
+
+async def exchange_task(self, ws, args):
+    message = await exchange(args)
+    logging.info(f'message tu output = {message}')
+    await self.send_to_clients(f"Name {ws.name}: >>>  {message}")
+
+
 class Server:
     clients = set()
 
@@ -50,14 +57,15 @@ class Server:
 
     async def distrubute(self, ws: WebSocketServerProtocol):
         async for message in ws:
+            logging.info(f'message tu output = {message}')
+            await self.send_to_clients(f"Name {ws.name}: >>>  {message}")
+
             if "exchange" in message:
                 await file_log(message)
                 args = (message.split(' '))
-                args.append("1")
-                message = await exchange(args[1:])  
-                logging.info(f'message tu output = {message}')
-            await self.send_to_clients(f"Name {ws.name}: >>>  {message}")
-
+                args.append("1") 
+                asyncio.create_task(exchange_task(self,ws, args[1:]))
+                
 
 async def main():
     server = Server()
