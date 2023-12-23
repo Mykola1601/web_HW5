@@ -43,7 +43,7 @@ class Server:
                 args = (message.split(' '))
                 args.append("1")
                 message = await exchange(args[1:])  
-                message = f"money for {args[1]} days {message}"
+                logging.info(f'message tu output = {message}  ')
             await self.send_to_clients(f"Name {ws.name}: >>>  {message}")
 
 
