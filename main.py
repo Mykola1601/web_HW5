@@ -9,7 +9,7 @@ import datetime
 
 logging.basicConfig(level=logging.INFO)
 
-valutes= ["EUR","USD"]
+# valutes= ["EUR","USD"]
 
 def make_url(days):
     url = 'https://api.privatbank.ua/p24api/exchange_rates?json&date='+str(days.strftime("%d.%m.%Y"))
@@ -31,6 +31,7 @@ async def index(session, url):
 async def main(args):
     logging.info(f'incomin args = {args}')
     days = "1"
+    valutes= ["EUR","USD"]
     if len(args) >0:
         days = args[0]
         valutes.extend(args)
@@ -56,7 +57,7 @@ async def main(args):
                     if i["currency"] in valutes :
                         dic[r['date']].update({i["currency"] : {'sale' : i['saleRateNB'] , 'purchase' : i['purchaseRateNB']} })
                 res.append(dic)
-            # logging.info(f'respons finish ')    
+            logging.info(f'respons finish ')    
             return res
         except aiohttp.client_exceptions.ClientConnectorError: 
             logging.info(f'except == {aiohttp.client_exceptions.ClientConnectorError} ')

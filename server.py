@@ -5,12 +5,23 @@ import asyncio
 import logging
 import websockets
 from datetime import datetime
+from aiopath import AsyncPath
+from aiofile import async_open
 from websockets import WebSocketServerProtocol
 from websockets.exceptions import ConnectionClosedOK
 from main import main as exchange
 
 logging.basicConfig(level=logging.INFO)
+LOG_FILE_NAME = "log.csv"
 
+async def file_log(data):
+        apath = AsyncPath(LOG_FILE_NAME)
+        if  not (await apath.exists() and await apath.is_file()):
+            async with async_open(LOG_FILE_NAME, 'w') as file:
+                logging.info(f'{LOG_FILE_NAME} creating file')
+        async with async_open(LOG_FILE_NAME, 'a') as file:
+                await file.write(str(datetime.now()) + " : " +data + "\n")
+                logging.info(f'login to file')
 
 class Server:
     clients = set()
@@ -40,10 +51,11 @@ class Server:
     async def distrubute(self, ws: WebSocketServerProtocol):
         async for message in ws:
             if "exchange" in message:
+                await file_log(message)
                 args = (message.split(' '))
                 args.append("1")
                 message = await exchange(args[1:])  
-                logging.info(f'message tu output = {message}  ')
+                logging.info(f'message tu output = {message}')
             await self.send_to_clients(f"Name {ws.name}: >>>  {message}")
 
 

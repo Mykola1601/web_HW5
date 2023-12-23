@@ -1,4 +1,4 @@
-**/__pycache__
+__pycache__
 .git
 .vscode/*
 **/test_folder
@@ -9,4 +9,4 @@ pyvenv.cfg
 pipfile*
 Include/
 Lib/
-test*
+log.csv
