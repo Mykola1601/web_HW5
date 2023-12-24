@@ -2,9 +2,10 @@ __pycache__
 .git
 virtemv/
 venv/
-Scripts/
+README*
 pyvenv.cfg
 pipfile*
-Include/
+poetry.lock
 test.py
 log.csv
+client.py
