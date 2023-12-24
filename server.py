@@ -69,7 +69,7 @@ class Server:
 
 async def main():
     server = Server()
-    async with websockets.serve(server.ws_handler, 'localhost', 8080):
+    async with websockets.serve(server.ws_handler, '0.0.0.0', 8080):
         await asyncio.Future()  # run forever
 
 if __name__ == '__main__':

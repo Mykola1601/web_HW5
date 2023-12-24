@@ -1,4 +1,5 @@
 aiofile==3.8.8
-aiopath==0.7.7
+aiopath
 websockets==12.0
 # aiohttp==3.8.2
+# aiohttp

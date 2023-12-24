@@ -1,6 +1,6 @@
 
 # baze immage
-from python:alpine3.18
+from python:alpine3.10
 
 
 # env variable
@@ -27,7 +27,7 @@ RUN pip install -r requirements.txt
 RUN pip install aiohttp
 
 # port set
-EXPOSE 8080:8080
+EXPOSE 8080
 
 
-# ENTRYPOINT ["python", "server.py" ]
+ENTRYPOINT ["python", "server.py" ]
